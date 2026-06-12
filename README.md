@@ -82,7 +82,7 @@ Columnas esperadas:
 ## Estructura
 
 ```text
-VALIDACION_CONSULTA/
+MODELO_VALIDACION_CONSULTA/
 ├─ data/
 │  ├─ raw/
 │  ├─ processed/
@@ -143,7 +143,7 @@ pip install -r requirements.txt
 Ubicate en la carpeta del proyecto:
 
 ```powershell
-cd ruta\al\proyecto\VALIDACION_CONSULTA
+cd ruta\al\proyecto\MODELO_VALIDACION_CONSULTA
 ```
 
 Si ya tienes un entorno virtual activo, usalo. Si no, activa el que corresponda. Por ejemplo:
