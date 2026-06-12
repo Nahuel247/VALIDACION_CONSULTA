@@ -104,7 +104,7 @@ VALIDACION_CONSULTA/
 │  └─ figures/
 ├─ tests/
 ├─ scripts/
-├─ validacion_permiso.py
+├─ validacion_consulta.py
 ├─ requirements.txt
 └─ README.md
 ```
@@ -179,7 +179,7 @@ powershell -ExecutionPolicy Bypass -File scripts/run_train.ps1
 Tambien puedes lanzar el entrenamiento desde el punto de entrada principal:
 
 ```powershell
-python validacion_permiso.py --mode train
+python validacion_consulta.py --mode train
 ```
 
 ## Evaluacion
@@ -191,7 +191,7 @@ python -m src.evaluation.evaluate
 O desde el launcher:
 
 ```powershell
-python validacion_permiso.py --mode evaluate
+python validacion_consulta.py --mode evaluate
 ```
 
 ## Inferencia rapida
@@ -210,14 +210,14 @@ python -m src.inference.predict --text "¿Cómo postulo a una beca municipal?"
 
 ## Compatibilidad con el script original
 
-`validacion_permiso.py` queda como punto de entrada simple para entrenar, evaluar o clasificar preguntas nuevas sin entrar a los modulos internos.
+`validacion_consulta.py` queda como punto de entrada simple para entrenar, evaluar o clasificar preguntas nuevas sin entrar a los modulos internos.
 
 ## Clasificar una pregunta nueva
 
 Si quieres ver como el modelo clasifica una pregunta puntual:
 
 ```bash
-python validacion_permiso.py --mode predict --text "¿Cómo postulo a una beca municipal?"
+python validacion_consulta.py --mode predict --text "¿Cómo postulo a una beca municipal?"
 ```
 
 Tambien puedes usar directamente:
@@ -238,7 +238,7 @@ Eso imprime:
 Si quieres probar muchas preguntas seguidas sin recargar el modelo en cada consulta:
 
 ```bash
-python validacion_permiso.py --mode interactive
+python validacion_consulta.py --mode interactive
 ```
 
 O directo desde el modulo:
@@ -254,25 +254,25 @@ Ese modo deja el modelo cargado en memoria y responde en bucle hasta que escriba
 Entrenar el modelo:
 
 ```powershell
-python validacion_permiso.py --mode train
+python validacion_consulta.py --mode train
 ```
 
 Evaluar el modelo ya entrenado:
 
 ```powershell
-python validacion_permiso.py --mode evaluate
+python validacion_consulta.py --mode evaluate
 ```
 
 Clasificar una sola pregunta:
 
 ```powershell
-python validacion_permiso.py --mode predict --text "¿Dónde están ubicadas las oficinas de la municipalidad?"
+python validacion_consulta.py --mode predict --text "¿Dónde están ubicadas las oficinas de la municipalidad?"
 ```
 
 Entrar en modo interactivo:
 
 ```powershell
-python validacion_permiso.py --mode interactive
+python validacion_consulta.py --mode interactive
 ```
 
 Salir del modo interactivo:
