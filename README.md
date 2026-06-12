@@ -9,7 +9,7 @@ Muchas veces es la arquitectura.
 Si vas a poner un LLM frente a usuarios reales, no basta con conectarlo a una base de conocimiento y dejarlo responder libremente. Antes deberia existir una capa de control que ayude a decidir:
 
 - que esta preguntando el usuario
-- si esa intencion esta permitida
+- si esa consulta esta permitida
 - que fuente o herramienta corresponde usar
 - que informacion no deberia entregarse
 
@@ -17,7 +17,7 @@ Una arquitectura minima para este tipo de sistemas podria verse asi:
 
 ```text
 Pregunta del usuario
-→ Clasificador de intencion
+→ Validador de consulta
 → Validacion de permisos
 → Seleccion de fuente o herramienta
 → Respuesta del LLM dentro de ese marco
@@ -28,7 +28,7 @@ El clasificador o validador puede ser simple:
 - reglas
 - catalogo de preguntas permitidas
 - un LLM usado como clasificador
-- un modelo entrenado para detectar intencion o permiso
+- un modelo entrenado para detectar si una consulta corresponde o no al dominio permitido
 
 No siempre se necesita algo complejo para reducir el riesgo. Muchas veces, una buena capa de clasificacion y control puede evitar errores costosos.
 
