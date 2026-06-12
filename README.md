@@ -82,7 +82,7 @@ Columnas esperadas:
 ## Estructura
 
 ```text
-CLASIFICACION_INTENCION/
+VALIDACION_CONSULTA/
 ├─ data/
 │  ├─ raw/
 │  ├─ processed/
@@ -111,13 +111,13 @@ CLASIFICACION_INTENCION/
 
 ## Modelo base
 
-Por defecto se usa un modelo local de Hugging Face:
+Por defecto se usa el modelo de Hugging Face:
 
 ```text
-C:\Users\nahue\OneDrive\Proyectos\MODELOS_DESCARGADOS\FacebookAI\xlm-roberta-base
+FacebookAI/xlm-roberta-base
 ```
 
-Puedes cambiarlo en `src/config.py` o mediante la variable de entorno `BASE_MODEL_DIR`.
+Si prefieres usar una copia local ya descargada, define la variable de entorno `BASE_MODEL_DIR` con la ruta que corresponda en tu equipo.
 
 ## Flujo del proyecto
 
@@ -143,7 +143,7 @@ pip install -r requirements.txt
 Ubicate en la carpeta del proyecto:
 
 ```powershell
-cd C:\Users\nahue\OneDrive\Proyectos\CLASIFICACION_INTENCION
+cd ruta\al\proyecto\VALIDACION_CONSULTA
 ```
 
 Si ya tienes un entorno virtual activo, usalo. Si no, activa el que corresponda. Por ejemplo:

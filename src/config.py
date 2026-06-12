@@ -15,8 +15,8 @@ METRICS_DIR = ARTIFACTS_DIR / "metrics"
 REPORTS_DIR = ARTIFACTS_DIR / "reports"
 FIGURES_DIR = ARTIFACTS_DIR / "figures"
 
-DEFAULT_BASE_MODEL_DIR = Path(r"C:\Users\nahue\OneDrive\Proyectos\MODELOS_DESCARGADOS\FacebookAI\xlm-roberta-base")
-BASE_MODEL_DIR = Path(os.getenv("BASE_MODEL_DIR", DEFAULT_BASE_MODEL_DIR))
+DEFAULT_BASE_MODEL_NAME = "FacebookAI/xlm-roberta-base"
+BASE_MODEL_NAME_OR_PATH = os.getenv("BASE_MODEL_DIR", DEFAULT_BASE_MODEL_NAME)
 
 TEXT_COLUMN = "text"
 LABEL_COLUMN = "label"

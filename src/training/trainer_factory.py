@@ -1,4 +1,6 @@
-﻿from __future__ import annotations
+from __future__ import annotations
+
+from pathlib import Path
 
 from datasets import Dataset, DatasetDict
 from transformers import (
@@ -10,7 +12,7 @@ from transformers import (
 )
 
 from src.config import (
-    BASE_MODEL_DIR,
+    BASE_MODEL_NAME_OR_PATH,
     EVAL_BATCH_SIZE,
     LEARNING_RATE,
     MAX_LENGTH,
@@ -24,6 +26,10 @@ from src.config import (
 from src.training.metrics import compute_metrics
 
 
+def use_local_files_only() -> bool:
+    return Path(BASE_MODEL_NAME_OR_PATH).exists()
+
+
 def build_label_maps(labels: list[str]) -> tuple[dict[str, int], dict[int, str]]:
     label2id = {label: idx for idx, label in enumerate(sorted(labels))}
     id2label = {idx: label for label, idx in label2id.items()}
@@ -31,7 +37,7 @@ def build_label_maps(labels: list[str]) -> tuple[dict[str, int], dict[int, str]]
 
 
 def build_tokenizer():
-    return AutoTokenizer.from_pretrained(str(BASE_MODEL_DIR), local_files_only=True)
+    return AutoTokenizer.from_pretrained(BASE_MODEL_NAME_OR_PATH, local_files_only=use_local_files_only())
 
 
 def tokenize_splits(splits: dict[str, Dataset], tokenizer) -> DatasetDict:
@@ -44,11 +50,11 @@ def tokenize_splits(splits: dict[str, Dataset], tokenizer) -> DatasetDict:
 
 def build_model(label2id: dict[str, int], id2label: dict[int, str]):
     return AutoModelForSequenceClassification.from_pretrained(
-        str(BASE_MODEL_DIR),
+        BASE_MODEL_NAME_OR_PATH,
         num_labels=len(label2id),
         id2label=id2label,
         label2id=label2id,
-        local_files_only=True,
+        local_files_only=use_local_files_only(),
     )
 
 
