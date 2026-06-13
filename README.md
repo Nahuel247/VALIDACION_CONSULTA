@@ -212,6 +212,8 @@ python -m src.inference.predict --text "¿Cómo postulo a una beca municipal?"
 
 `validacion_consulta.py` queda como punto de entrada simple para entrenar, evaluar o clasificar preguntas nuevas sin entrar a los modulos internos.
 
+Tambien existe el archivo `desarrollo_modelo_original.py`, que conserva una version previa a la organizacion del proyecto realizada con Codex. Ese archivo funciona como un codigo unico, independiente y autocontenido para cargar datos, entrenar, evaluar y guardar el modelo sin depender de la arquitectura modular en `src/`.
+
 ## Clasificar una pregunta nueva
 
 Si quieres ver como el modelo clasifica una pregunta puntual:
