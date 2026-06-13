@@ -36,10 +36,13 @@ from transformers import (
 # CONFIGURACION GENERAL
 #################################
 
+# Carpeta Raíz del proyecto
 try:
     PROJECT_ROOT = Path(__file__).resolve().parent
 except NameError:
     PROJECT_ROOT = Path.cwd()
+
+# Rutas de entradas y salidas
 DATASET_PATH = PROJECT_ROOT / "data" / "raw" / "municipio_validacion_preguntas_400.csv"
 OUTPUT_DIR = PROJECT_ROOT / "outputs" / "desarrollo_modelo_original"
 MODEL_OUTPUT_DIR = OUTPUT_DIR / "fine_tuned_model"
@@ -52,14 +55,19 @@ TRAIN_REPORT_PATH = REPORTS_DIR / "classification_report_train.csv"
 CONFUSION_MATRIX_PATH = REPORTS_DIR / "confusion_matrix_test.csv"
 LABELS_MAP_PATH = MODEL_OUTPUT_DIR / "labels_map.json"
 
+
+# Ruta y modelo que se va a utilizar
 BASE_MODEL_NAME = os.getenv("BASE_MODEL_DIR", "FacebookAI/xlm-roberta-base")
 TEXT_COLUMN = "text"
 LABEL_COLUMN = "label"
 SUBTYPE_COLUMN = "subtype"
 VALID_LABELS = {"valida", "no_valida"}
 
+# Parametros de reproducibilidad y división de datos
 RANDOM_STATE = 42
 TEST_SIZE = 0.20
+
+# Parámetros del modelo
 MAX_LENGTH = 128
 NUM_TRAIN_EPOCHS = 4
 TRAIN_BATCH_SIZE = 8
@@ -91,6 +99,7 @@ class SaveMetricsCallback(TrainerCallback):
         print(f"\nMetricas guardadas en {path}")
 
 
+# Esta función fija las semillas aleatorias para que el experimento sea lo más reproducible posible.
 def set_seed(seed=RANDOM_STATE):
     random.seed(seed)
     np.random.seed(seed)
@@ -99,11 +108,13 @@ def set_seed(seed=RANDOM_STATE):
         torch.cuda.manual_seed_all(seed)
 
 
+# Esta función crea las carpetas necesarias para guardar los resultados del entrenamiento.
 def ensure_directories():
     for path in [OUTPUT_DIR, MODEL_OUTPUT_DIR, RESULTS_DIR, LOGS_DIR, REPORTS_DIR]:
         path.mkdir(parents=True, exist_ok=True)
 
 
+# Esta función lee el dataset, revisa que venga bien, limpia text, label y subtype, valida que las etiquetas sean correctas, y devuelve un dataframe limpio.
 def load_and_prepare_dataframe(csv_path=DATASET_PATH):
     if not csv_path.exists():
         raise FileNotFoundError(f"No se encontro el dataset en: {csv_path}")
@@ -138,14 +149,15 @@ def load_and_prepare_dataframe(csv_path=DATASET_PATH):
 
     return df[[TEXT_COLUMN, LABEL_COLUMN, SUBTYPE_COLUMN]].copy()
 
-
+# Esta función crea los mapas entre etiquetas de texto y números.
+# Los modelos no trabajan directamente con etiquetas como "valida" o "no_valida". Necesitan clases numéricas, por ejemplo: "no_valida" -> 0 y "valida" -> 1
 def build_label_maps(df):
     labels = sorted(df[LABEL_COLUMN].unique())
     label2id = {label: idx for idx, label in enumerate(labels)}
     id2label = {idx: label for label, idx in label2id.items()}
     return label2id, id2label
 
-
+# Guarda en un archivo JSON el mapa label -> id y el mapa id -> label, para poder interpretar las predicciones después.
 def save_label_maps(label2id, id2label):
     payload = {
         "label2id": label2id,
@@ -153,7 +165,7 @@ def save_label_maps(label2id, id2label):
     }
     LABELS_MAP_PATH.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
 
-
+# Toma un dataframe con texto y etiqueta textual, convierte la etiqueta a número, deja solo las columnas necesarias y lo pasa al formato Dataset de Hugging Face.
 def convert_dataframe_to_hf_dataset(df_split, label2id):
     dataset_df = df_split[[TEXT_COLUMN, LABEL_COLUMN]].copy()
     dataset_df["labels"] = dataset_df[LABEL_COLUMN].map(label2id)
